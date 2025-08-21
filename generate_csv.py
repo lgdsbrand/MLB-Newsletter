@@ -1,8 +1,8 @@
 import pandas as pd
 from datetime import datetime
 from scrape.scrape_odds import get_odds_data
-from scrape.scrape_pitchers import get_pitcher_stats
 from scrape.scrape_dimers import enrich_with_dimers
+from scrape.scrape_pitchers import get_pitcher_stats
 
 def build_daily_csv():
     date_str = datetime.today().strftime("%Y%m%d")
