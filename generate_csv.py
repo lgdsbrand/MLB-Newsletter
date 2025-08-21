@@ -3,7 +3,6 @@ from datetime import datetime
 from scrape.scrape_odds import get_odds_data
 from scrape.scrape_pitchers import get_pitcher_stats
 from scrape.scrape_dimers import enrich_with_dimers
-# You can add scrape_teams and scrape_props later
 
 def build_daily_csv():
     date_str = datetime.today().strftime("%Y%m%d")
@@ -27,9 +26,9 @@ def build_daily_csv():
             "pitcher_away": pitchers["away_name"],
             "stats_home": pitchers["home_stats"],
             "stats_away": pitchers["away_stats"],
-            "team_home_stats": "Stubbed team stats",  # Add scrape_teams later
+            "team_home_stats": "Stubbed team stats",
             "team_away_stats": "Stubbed team stats",
-            "player_trend": game["extra_prop"],       # Can swap with scrape_props later
+            "player_trend": game["extra_prop"],
             "best_bet": game["best_bet"],
             "pick_to_win": game["pick"],
             "ou_model": game["ou_model"],
@@ -43,4 +42,3 @@ def build_daily_csv():
 
 if __name__ == "__main__":
     build_daily_csv()
-
