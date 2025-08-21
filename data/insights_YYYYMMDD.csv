@@ -1,1 +1,3 @@
+date,game,time,weather,wind_mph,ml_home,ml_away,over_under,pitcher_home,pitcher_away,stats_home,stats_away,team_home_stats,team_away_stats,player_trend,best_bet,pick_to_win,ou_model,extra_prop
+20250821,Reds @ Angels,9:10 PM,Sunny,12,Reds -135,Angels +115,9.5,Hunter Greene,Kyle Hendricks,"W-L: 3-0, ER: 3, HR: 3, K/9: 6","W-L: 1-2, ER: 3, HR: 3, K/9: 6, .219 vs RHH, .320 vs LHH","8-2 L10, .282 vs RHP, Avg Runs L5: 4.2","8-2 L10","Elly De La Cruz OPS 1.000 in July","Hendricks U18.5 Outs","Reds","No Bet","Elly OPS 1.000 in July"
 
