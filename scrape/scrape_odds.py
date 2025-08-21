@@ -1,34 +1,36 @@
 import requests
-from bs4 import BeautifulSoup
 
 def get_odds_data():
-    url = "https://www.espn.com/mlb/scoreboard"
-    headers = {"User-Agent": "Mozilla/5.0"}
-    r = requests.get(url, headers=headers)
-    soup = BeautifulSoup(r.text, "lxml")
+    url = "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard"
+    r = requests.get(url)
+    data = r.json()
 
     games = []
-    for card in soup.select(".Scoreboard"):
+    for event in data.get("events", []):
         try:
-            teams = card.select(".team-name")
-            home_team = teams[1].text.strip()
-            away_team = teams[0].text.strip()
+            competitions = event["competitions"][0]
+            competitors = competitions["competitors"]
+            home = next(team for team in competitors if team["homeAway"] == "home")
+            away = next(team for team in competitors if team["homeAway"] == "away")
+
+            home_team = home["team"]["shortDisplayName"]
+            away_team = away["team"]["shortDisplayName"]
             matchup = f"{away_team} @ {home_team}"
 
-            time = card.select_one(".game-time").text.strip()
+            time = event["date"][11:16]  # Extract HH:MM from ISO timestamp
 
-            odds_block = card.select_one(".odds-details")
-            ml_home = odds_block.select(".moneyline")[1].text.strip()
-            ml_away = odds_block.select(".moneyline")[0].text.strip()
-            ou = odds_block.select_one(".over-under").text.strip()
+            odds = competitions.get("odds", [{}])[0]
+            ml_home = odds.get("homeTeamOdds", {}).get("moneyLine", "N/A")
+            ml_away = odds.get("awayTeamOdds", {}).get("moneyLine", "N/A")
+            ou = odds.get("overUnder", "N/A")
 
             games.append({
                 "matchup": matchup,
                 "time": time,
-                "ml_home": ml_home,
-                "ml_away": ml_away,
+                "ml_home": f"{home_team} {ml_home}",
+                "ml_away": f"{away_team} {ml_away}",
                 "ou": ou,
-                "weather": "TBD",      # To be filled by Dimers
+                "weather": "TBD",
                 "wind": "TBD",
                 "best_bet": "TBD",
                 "pick": "TBD",
